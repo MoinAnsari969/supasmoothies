@@ -16,8 +16,8 @@ function Home() {
             let { data, error } = await supabase
                 .from('smoothies')
                 .select('*')
-                .order(orderBy, { ascending: false })
-    
+                .order(orderBy, { ascending: orderBy == 'title' ? true : false })
+
             if (error) {
                 setFetchError('Could not fetc smoothies');
                 setSmoothies(null);
@@ -33,11 +33,11 @@ function Home() {
         fetchSmoothies();
     }, [orderBy])
 
-    
 
-    const handleDelete = async(smoothieId) => {
-        setSmoothies((prevSmoothies)=>{
-            return prevSmoothies.filter(sm=>sm.id!=smoothieId)
+
+    const handleDelete = async (smoothieId) => {
+        setSmoothies((prevSmoothies) => {
+            return prevSmoothies.filter(sm => sm.id != smoothieId)
         })
     }
 
@@ -50,16 +50,16 @@ function Home() {
                     <div className='smoothies'>
                         <div className="order-by">
                             <p>Order By:</p>
-                            <button onClick={()=>setOrderBy('created_at')}>Time Created</button>
-                            <button onClick={()=>setOrderBy('title')}>Title</button>
-                            <button onClick={()=>setOrderBy('rating')}>Rating</button>
+                            <button onClick={() => setOrderBy('created_at')}>Time Created</button>
+                            <button onClick={() => setOrderBy('title')}>Title</button>
+                            <button onClick={() => setOrderBy('rating')}>Rating</button>
                         </div>
                         <div className='smoothie-grid'>
-                        {
-                            smoothies.map(smoothie => (
-                                <SmoothieCard key={smoothie.id} smoothie={smoothie} onDelete={handleDelete} />
-                            ))
-                        }
+                            {
+                                smoothies.map(smoothie => (
+                                    <SmoothieCard key={smoothie.id} smoothie={smoothie} onDelete={handleDelete} />
+                                ))
+                            }
                         </div>
                     </div>
                 )
